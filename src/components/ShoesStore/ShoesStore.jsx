@@ -1,9 +1,8 @@
-import React from 'react';
-import ProductList from '../ProductList/ProductList';
+import React, { Component } from 'react';
+import ProductList from '..//ProductList/ProductList';
 import InforBanner from '../InforBanner/InforBanner';
-import { useState } from 'react';
-const ShoesStore = () => {
-   const shoes = [
+export default class ShoesStore extends Component {
+   shoes = [
       {
          id: 1,
          name: 'Adidas Prophere',
@@ -145,30 +144,27 @@ const ShoesStore = () => {
          image: 'http://svcy3.myclass.vn/images/nike-air-max-270-react.png',
       },
    ];
+   state = { shoeInfor: {} };
 
-   const [infor, setInfor] = useState({});
-
-   const viewPhone = (id) => {
-      return shoes.map((item) => {
+   viewPhone = (id) => {
+      return this.shoes.map((item) => {
          if (item.id == id) {
-            setInfor(item);
+            this.setState({ shoeInfor: item });
          }
-         return infor;
       });
    };
-   viewPhone();
-   return (
-      <>
-         <h1 className='text-center'>Shoes Store</h1>
 
-         <ProductList
-            viewPhone={viewPhone}
-            shoes={shoes}
-         />
+   render() {
+      return (
+         <div>
+            <h1 className='text-center'>Shoes Store</h1>
+            <ProductList
+               viewPhone={this.viewPhone}
+               shoes={this.shoes}
+            />
 
-         <InforBanner infor={infor} />
-      </>
-   );
-};
-
-export default ShoesStore;
+            <InforBanner shoeInfor={this.state.shoeInfor} />
+         </div>
+      );
+   }
+}
